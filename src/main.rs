@@ -2,6 +2,7 @@ mod builtin;
 mod error;
 mod ioface;
 mod shell;
+mod stringbuffer;
 mod tests;
 
 use crate::shell::Shell;

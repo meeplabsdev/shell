@@ -3,6 +3,7 @@
 mod r#cd;
 mod r#false;
 mod r#pwd;
+mod r#true;
 mod r#noop;
 
 use crate::shell::Shell;
@@ -15,6 +16,7 @@ pub fn builtins() -> HashMap<String, Sig> {
     m.insert("cd".to_string(), r#cd::function);
     m.insert("false".to_string(), r#false::function);
     m.insert("pwd".to_string(), r#pwd::function);
+    m.insert("true".to_string(), r#true::function);
     m.insert("noop".to_string(), r#noop::function);
     return m;
 }

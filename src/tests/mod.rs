@@ -5,6 +5,7 @@ use crate::stringbuffer::StringBuffer;
 
 #[cfg(test)]
 pub mod r#false;
+pub mod r#true;
 pub mod r#noop;
 pub mod r#pwd;
 

@@ -1,0 +1,9 @@
+=USAGE
+pwd [-p]
+
+=OPTIONS
+-p          The pathname written to standard output shall not contain any components that refer to symbolic links.
+
+=OPERANDS
+
+=ENVIRONMENT

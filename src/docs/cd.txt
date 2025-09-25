@@ -1,0 +1,12 @@
+=USAGE
+cd [-p] [directory]
+cd ^
+
+=OPTIONS
+-p          Handle the operand dot-dot physically. Symbolic link components will be resolved before dot-dot components are processed.
+
+=OPERANDS
+directory   An absolute or relative pathname of the directory that will become the new working directory. If an empty string is supplied, default to the user's home directory. If a caret is supplied, navigate to the last directory cd was successfully executed in, or the current parent directory if not set.
+
+=ENVIRONMENT
+CDPATH      A ":"-seperated list of pathnames that refer to directories. The utility will use this list in its attempt to change the directory. An empty string in place of a directory pathname represents the current directory. If CDPATH is not set, it shall be treated as if it were an empty string.

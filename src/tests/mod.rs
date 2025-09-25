@@ -1,18 +1,31 @@
 // This file is GENERATED (build.rs)
+
 use crate::shell::Shell;
-use std::io;
+use crate::stringbuffer::StringBuffer;
 
 #[cfg(test)]
 pub mod r#false;
 
 #[allow(dead_code)]
-pub fn std_shell() -> Shell {
-    return Shell::new(io::stdin(), io::stdout(), io::stderr());
+pub struct BuiltinResult {
+    pub exit_code: i32,
+    pub stdout: String,
+    pub stderr: String,
 }
 
 #[allow(dead_code)]
-pub fn std_builtin<S: AsRef<str>>(builtin: S, arguments: Vec<String>) -> i32 {
-    let mut shell = std_shell();
+pub fn std_builtin<S: AsRef<str>>(builtin: S, arguments: Vec<String>) -> BuiltinResult {
+    let stdin = StringBuffer::new();
+    let stdout = StringBuffer::new();
+    let stderr = StringBuffer::new();
+
+    let mut shell = Shell::new(stdin, stdout.clone(), stderr.clone());
     let command = shell.builtin(&builtin.as_ref().to_string()).unwrap();
-    return command(&mut shell, arguments);
+    let exit_code = command(&mut shell, arguments);
+
+    return BuiltinResult {
+        exit_code,
+        stdout: stdout.into(),
+        stderr: stderr.into(),
+    };
 }

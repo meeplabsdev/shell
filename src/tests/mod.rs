@@ -8,6 +8,7 @@ pub mod r#false;
 pub mod r#true;
 pub mod r#noop;
 pub mod r#pwd;
+pub mod r#cd;
 
 #[allow(dead_code)]
 pub struct BuiltinResult {

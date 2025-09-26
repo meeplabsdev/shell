@@ -7,10 +7,6 @@ fn exits_0() {
 #[test]
 fn stdout_curdir() {
     let curdir = std::env::current_dir().unwrap();
-
     let result = crate::tests::std_builtin("pwd", Vec::new());
-    assert_eq!(
-        result.stdout.trim(),
-        curdir.canonicalize().unwrap().to_str().unwrap()
-    );
+    assert_eq!(result.stdout.trim(), curdir.to_str().unwrap());
 }

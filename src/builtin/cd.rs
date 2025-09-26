@@ -22,7 +22,6 @@ pub fn function(shell: &mut Shell, arguments: Vec<String>) -> i32 {
         let result = set_current_dir(&path);
         if result.is_ok() {
             unsafe {
-                println!("{:?}", path);
                 env::set_var("PWD", path.canonicalize().unwrap());
                 env::set_var("OLDPWD", oldpath.canonicalize().unwrap());
             }

@@ -8,7 +8,7 @@ use std::{
 
 pub fn function(shell: &mut Shell, arguments: Vec<String>) -> i32 {
     let mut opts = Options::new();
-    opts.optflag("p", "physical", "");
+    opts.optflag("p", "", "");
     let options = match opts.parse(arguments.clone()) {
         Ok(m) => m,
         Err(_) => {

@@ -9,10 +9,12 @@ use std::{
     collections::HashMap,
     env,
     io::{Read, Write},
+    sync::{Arc, Mutex},
 };
 
+#[derive(Clone)]
 pub struct Shell {
-    pub io: IoFace,
+    io: Arc<Mutex<IoFace>>,
     builtins: HashMap<String, Sig>,
 }
 
@@ -23,7 +25,7 @@ impl Shell {
         stderr: E,
     ) -> Self {
         Self {
-            io: IoFace::new(stdin, stdout, stderr),
+            io: Arc::new(Mutex::new(IoFace::new(stdin, stdout, stderr))),
             builtins: builtin::builtins(),
         }
     }
@@ -31,19 +33,27 @@ impl Shell {
     pub fn writeln<T: AsRef<str>>(&mut self, content: T) -> Result<(), Error> {
         let content = content.as_ref().to_string();
 
-        return self.io.writeln(content);
+        return self.io.lock()?.writeln(content);
     }
 
     pub fn errln<T: AsRef<str>>(&mut self, content: T) -> Result<(), Error> {
         let content = content.as_ref().to_string();
 
-        return self.io.errln(content);
+        return self.io.lock()?.errln(content);
+    }
+
+    pub fn write_buf(&mut self, buffer: &[u8]) -> Result<(), Error> {
+        return self.io.lock()?.write_buf(buffer);
+    }
+
+    pub fn err_buf(&mut self, buffer: &[u8]) -> Result<(), Error> {
+        return self.io.lock()?.err_buf(buffer);
     }
 
     pub fn prompt_sigil(&mut self, sigil: String) -> Result<String, Error> {
-        self.io.write(sigil)?;
+        self.io.lock()?.write(sigil)?;
 
-        return Ok(self.io.read()?);
+        return Ok(self.io.lock()?.read()?);
     }
 
     pub fn prompt(&mut self, exit_code: i32) -> Result<String, Error> {

@@ -1,4 +1,9 @@
-use std::{fmt, io};
+use std::{
+    fmt, io,
+    sync::{MutexGuard, PoisonError},
+};
+
+use crate::ioface::IoFace;
 
 pub struct EString(String);
 
@@ -38,6 +43,14 @@ impl From<&str> for Error {
 
 impl From<io::Error> for Error {
     fn from(err: io::Error) -> Self {
+        Self {
+            details: err.to_string(),
+        }
+    }
+}
+
+impl From<PoisonError<MutexGuard<'_, IoFace>>> for Error {
+    fn from(err: PoisonError<MutexGuard<'_, IoFace>>) -> Self {
         Self {
             details: err.to_string(),
         }

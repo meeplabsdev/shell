@@ -12,7 +12,7 @@ use signal_hook::{
     iterator::Signals,
 };
 use std::{
-    io::{self, BufReader, Read},
+    io::{self, Read},
     process::{Command, Stdio},
     thread,
 };
@@ -90,23 +90,19 @@ fn act<S: AsRef<str>>(operand: S, arguments: Vec<S>, shell: &mut Shell) -> Resul
             .spawn()?;
 
         // let stdin = child.stdin.take().expect("failed to get stdin");
-        let stdout = child.stdout.take().expect("failed to get stdout");
-        let stderr = child.stderr.take().expect("failed to get stderr");
-
-        // let mut stdin_writer = BufWriter::new(stdin);
-        let mut stdout_reader = BufReader::new(stdout);
-        let mut stderr_reader = BufReader::new(stderr);
+        let mut stdout = child.stdout.take().expect("failed to get stdout");
+        let mut stderr = child.stderr.take().expect("failed to get stderr");
 
         let mut buffer = [0u8; 4096];
         loop {
-            let n = stdout_reader.read(&mut buffer)?;
+            let n = stdout.read(&mut buffer)?;
             if n != 0 {
-                shell.io.write_buf(&buffer[..n])?;
+                shell.write_buf(&buffer[..n])?;
             }
 
-            let m = stderr_reader.read(&mut buffer)?;
+            let m = stderr.read(&mut buffer)?;
             if m != 0 {
-                shell.io.err_buf(&buffer[..m])?;
+                shell.err_buf(&buffer[..m])?;
             }
 
             if n == 0 && m == 0 {

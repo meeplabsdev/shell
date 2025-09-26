@@ -29,7 +29,7 @@ pub fn function(shell: &mut Shell, arguments: Vec<String>) -> i32 {
 
         return result.is_err() as i32;
     } else {
-        let _ = shell.errln(path.unwrap_err().to_string());
+        shell.errln(path.unwrap_err().to_string()).ok();
     }
 
     return 1;

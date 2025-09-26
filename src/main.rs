@@ -32,7 +32,7 @@ async fn main() -> Result<(), Error> {
                 _ => "unknown",
             };
 
-            let _ = shell.writeln(format!("Received signal {}", common_name));
+            shell.writeln(format!("signal {}", common_name)).ok();
         }
     });
 

@@ -18,11 +18,13 @@ pub fn function(shell: &mut Shell, arguments: Vec<String>) -> i32 {
 
     let path = get_path(options);
     if let Ok(path) = path {
-        let _ = shell.writeln(path.canonicalize().unwrap().to_str().unwrap());
+        shell
+            .writeln(path.canonicalize().unwrap().to_str().unwrap())
+            .ok();
 
         return 0;
     } else {
-        let _ = shell.errln(path.unwrap_err().to_string());
+        shell.errln(path.unwrap_err().to_string()).ok();
     }
 
     return 1;

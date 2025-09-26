@@ -17,8 +17,7 @@ use std::{
     thread,
 };
 
-#[tokio::main()]
-async fn main() -> Result<(), Error> {
+fn main() -> Result<(), Error> {
     let mut signals = Signals::new([SIGINT, SIGQUIT, SIGTSTP]).unwrap();
     let mut shell = Shell::new(io::stdin(), io::stdout(), io::stderr());
 

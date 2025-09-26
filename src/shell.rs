@@ -12,6 +12,10 @@ use std::{
     sync::{Arc, Mutex},
 };
 
+static ALIASES: phf::Map<&'static str, &'static str> = phf::phf_map! {
+    ":" => "noop",
+};
+
 #[derive(Clone)]
 pub struct Shell {
     io: Arc<Mutex<IoFace>>,
@@ -81,6 +85,11 @@ impl Shell {
     }
 
     pub fn builtin(&mut self, name: &String) -> Option<&fn(&mut Shell, Vec<String>) -> i32> {
+        let mut name = name.as_str();
+        if ALIASES.contains_key(&name) {
+            name = ALIASES.get(&name).unwrap();
+        }
+
         if self.builtins.contains_key(name) {
             return Some(self.builtins.get(name).unwrap());
         }

@@ -10,5 +10,6 @@ colored = "3.0.0"
 futures = "0.3.31"
 getopts = "0.2.24"
 pathdiff = "0.2.3"
+phf = { version = "0.13.1", features = ["macros"] }
 signal-hook = "0.3.18"
 tokio = { version = "1.47.1", features = ["full"] }

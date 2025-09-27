@@ -6,6 +6,7 @@ mod r#pwd;
 mod r#true;
 mod r#noop;
 mod r#source;
+mod r#eval;
 
 use crate::shell::Shell;
 use std::collections::HashMap;
@@ -20,5 +21,6 @@ pub fn builtins() -> HashMap<String, Sig> {
     m.insert("true".to_string(), r#true::function);
     m.insert("noop".to_string(), r#noop::function);
     m.insert("source".to_string(), r#source::function);
+    m.insert("eval".to_string(), r#eval::function);
     return m;
 }

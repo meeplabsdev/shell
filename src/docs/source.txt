@@ -1,0 +1,11 @@
+=USAGE
+source [-p path] <script>
+. [-p path] <script>
+
+=OPTIONS
+-p          A ":"-seperated list of paths to search for the script. If not specified, checks $PATH and then the current directory.
+
+=OPERANDS
+script      The filename of the script to execute.
+
+=ENVIRONMENT

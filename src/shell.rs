@@ -9,11 +9,13 @@ use std::{
     collections::HashMap,
     env,
     io::{Read, Write},
+    process::{Command, Stdio},
     sync::{Arc, Mutex},
 };
 
 static ALIASES: phf::Map<&'static str, &'static str> = phf::phf_map! {
     ":" => "noop",
+    "." => "source",
 };
 
 #[derive(Clone)]
@@ -95,5 +97,76 @@ impl Shell {
         }
 
         return None;
+    }
+
+    pub fn exec<S: AsRef<str>>(&mut self, input: S) -> i32 {
+        let parts = self.parse(input);
+        if parts.is_none() {
+            return 0;
+        }
+
+        let (operand, arguments) = parts.unwrap();
+        return self.act(operand, arguments);
+    }
+
+    fn parse<S: AsRef<str>>(&mut self, input: S) -> Option<(String, Vec<String>)> {
+        let mut parts: Vec<String> = input
+            .as_ref()
+            .split(' ')
+            .filter(|p| !p.eq(&""))
+            .map(|p| p.to_string())
+            .collect();
+
+        if parts.len() < 1 {
+            return None;
+        }
+
+        return Some((parts.remove(0), parts));
+    }
+
+    // TODO: FIX THIS FUNCTION SO MANY .unwrap()
+    fn act<S: AsRef<str>>(&mut self, operand: S, arguments: Vec<S>) -> i32 {
+        let operand = operand.as_ref().to_string();
+        let arguments = arguments.iter().map(|a| a.as_ref().to_string());
+
+        if let Some(command) = self.builtin(&operand) {
+            return command(self, arguments.collect());
+        }
+
+        // if !PathBuf::from(&operand).exists() {
+        //     self.errln(format!("\"{}\" not found", operand)).ok();
+        //     return 255;
+        // }
+
+        let mut child = Command::new(operand)
+            .args(arguments)
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .unwrap();
+
+        // let stdin = child.stdin.take().expect("failed to get stdin");
+        let mut stdout = child.stdout.take().expect("failed to get stdout");
+        let mut stderr = child.stderr.take().expect("failed to get stderr");
+
+        let mut buffer = [0u8; 4096];
+        loop {
+            let n = stdout.read(&mut buffer).unwrap();
+            if n != 0 {
+                self.write_buf(&buffer[..n]).ok();
+            }
+
+            let m = stderr.read(&mut buffer).unwrap();
+            if m != 0 {
+                self.err_buf(&buffer[..m]).ok();
+            }
+
+            if n == 0 && m == 0 {
+                break;
+            }
+        }
+
+        return child.wait().unwrap().code().unwrap_or(255);
     }
 }

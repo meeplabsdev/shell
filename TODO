@@ -1,0 +1,59 @@
+= COMMANDS
+https://www.gnu.org/software/bash/manual/html_node/Bourne-Shell-Builtins.html
+
+TODO: break command
+TODO: continue command
+TODO: exec command
+TODO: exit command
+TODO: export command
+TODO: getopts command
+TODO: hash command
+TODO: readonly command
+TODO: return command
+TODO: shift command
+TODO: test command
+TODO: times command
+TODO: trap command
+TODO: umask command
+TODO: unset command
+
+TODO: source -T trap arg
+TODO: source support proper scripting (eg loops, ifs, etc)
+TODO: source support args passing to script
+
+= TESTING
+TODO: tests in a fakeroot, not just bare
+
+TODO: cd test check the dir it ends up in
+TODO: cd test check CDPATH functionality
+TODO: cd test check dot-dot physicality
+
+= MOVE ON TO BASH BUILTINS
+https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html
+
+TODO: alias command
+TODO: bind command
+TODO: builtin command
+TODO: caller command
+TODO: command command
+TODO: declare command
+TODO: echo command
+TODO: enable command
+TODO: help command
+TODO: let command
+TODO: local command
+TODO: logout command
+TODO: mapfile command
+TODO: printf command
+TODO: read command
+TODO: readarray command
+TODO: type command
+TODO: typeset command
+TODO: ulimit command
+TODO: unalias command
+
+TODO: set command (https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html)
+TODO: shopt command (https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html)
+
+
+https://www.gnu.org/software/bash/manual/html_node/

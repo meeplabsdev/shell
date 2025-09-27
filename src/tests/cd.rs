@@ -21,14 +21,3 @@ fn exits_1_noexist() {
     let result = crate::tests::std_builtin("cd", vec!["/thisdoesnotexist".into()]);
     assert_eq!(result.exit_code, 1);
 }
-
-// TODO: check the dir it ends up in
-// TODO: check CDPATH functionality
-// TODO: check dot-dot physicality
-
-// #[test]
-// fn stdout_curdir() {
-//     let curdir = std::env::current_dir().unwrap();
-//     let result = crate::tests::std_builtin("pwd", Vec::new());
-//     assert_eq!(result.stdout.trim(), curdir.to_str().unwrap());
-// }

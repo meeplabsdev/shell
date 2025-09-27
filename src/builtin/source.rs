@@ -2,7 +2,6 @@ use crate::{environment, shell::Shell};
 use getopts::Options;
 use std::{env, fs::File, io::Read, path::PathBuf};
 
-// TODO: support args passing to script
 pub fn function(shell: &mut Shell, arguments: Vec<String>) -> i32 {
     let mut opts = Options::new();
     opts.optopt("p", "", "", "path");

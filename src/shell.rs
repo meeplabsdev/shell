@@ -124,7 +124,8 @@ impl Shell {
         return Some((parts.remove(0), parts));
     }
 
-    // TODO: FIX THIS FUNCTION SO MANY .unwrap()
+    // TODO: THIS FUNCTION SO MANY .unwrap()
+    // FIXME: crashes on unknown command, check if it exists before calling Command::new on it
     fn act<S: AsRef<str>>(&mut self, operand: S, arguments: Vec<S>) -> i32 {
         let operand = operand.as_ref().to_string();
         let arguments = arguments.iter().map(|a| a.as_ref().to_string());

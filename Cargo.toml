@@ -11,4 +11,4 @@ futures = "0.3.31"
 getopts = "0.2.24"
 pathdiff = "0.2.3"
 phf = { version = "0.13.1", features = ["macros"] }
-signal-hook = "0.3.18"
+signal-hook = { version = "0.3.18", features = ["iterator"] }

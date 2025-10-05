@@ -33,9 +33,13 @@ fn main() -> Result<(), Error> {
     });
 
     let mut exit_code = 0;
-    for _ in 0..5 {
+    loop {
         let content = shell.prompt(exit_code)?;
         exit_code = shell.exec(content);
+
+        if exit_code == -255 {
+            break;
+        }
     }
 
     return Ok(());

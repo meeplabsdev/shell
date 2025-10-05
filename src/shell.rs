@@ -139,13 +139,20 @@ impl Shell {
         //     return 255;
         // }
 
-        let mut child = Command::new(operand)
+        let child = Command::new(&operand)
             .args(arguments)
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::piped())
-            .spawn()
-            .unwrap();
+            .spawn();
+
+        if child.is_err() {
+            self.errln(format!("Could not find command '{}'", operand))
+                .ok();
+            return 1;
+        }
+
+        let mut child = child.unwrap();
 
         // let stdin = child.stdin.take().expect("failed to get stdin");
         let mut stdout = child.stdout.take().expect("failed to get stdout");
